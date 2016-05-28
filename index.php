@@ -111,7 +111,7 @@
                 <div class="input-group">
                   <input name="message" placeholder="Type Message ..." class="form-control" type="text">
                       <span class="input-group-btn">
-                        <button type="button" data-room-token="" class="btn btn-primary btn-flat message-send">Send</button>
+                        <button type="button" data-conversation-id="" class="btn btn-primary btn-flat message-send">Send</button>
                       </span>
                 </div>
             </form>
