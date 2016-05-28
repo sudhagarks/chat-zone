@@ -231,3 +231,12 @@ a {
     margin-right: 50px;
     margin-left: 0;
 }
+#footer {
+  position: absolute;
+  bottom: 0;
+  background-color: #f8f8f8;
+  color: #777;
+  min-height: 40px;
+  width: 100%;
+  border-color: #e7e7e7;
+}
