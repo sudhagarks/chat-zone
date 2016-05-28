@@ -16,7 +16,7 @@
 		<div class="wrapper">
 			<form action="" method="post" name="Login_Form" class="form-signin">       
 			    <h3 class="form-signin-heading">Sign In</h3>
-				 		 <hr class="colorgraph"><br>
+		 		 <hr class="colorgraph"><br>
 				  
 				  <input type="text" class="form-control" name="email" placeholder="Email" required="" autofocus="" />
 				  <input type="password" class="form-control" name="Password" placeholder="Password" required=""/>     		  
@@ -28,7 +28,7 @@
      			 <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
         Google</a>
    				 </div>	
-				<a href="register.html" class="text-center">Register a new membership</a>
+				<a href="signup.php" class="text-center">Register a new membership</a>
 			</form>		
 		</div>
 	</div>

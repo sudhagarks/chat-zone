@@ -99,3 +99,16 @@ a {
     background-color: #c23321;
     border-color: rgba(0,0,0,0.2);
 }
+
+.media-object {
+      width: 40px;
+    height: 40px;
+    float: left;
+    margin-right: 8px;
+}
+.list-group-item {
+  height: 60px;
+}
+.list-group-item-heading {
+      margin-top: 10px;
+}
