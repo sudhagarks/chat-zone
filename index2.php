@@ -1,3 +1,12 @@
+<?php include 'dbconnection.php';
+    
+$sql = "SELECT id, fullname, email, user_img FROM users";
+$result = $conn->query($sql);
+
+// echo "<pre>"; print_r($result); 
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,19 +75,14 @@
             <div class="box-header with-border">
               <h3 class="box-title">Direct Chat</h3>
 
-            <button type="submit" class="btn btn-success btn-flat" style="float: right;"><i class="fa fa-plus"></i> New Message</button>
+            <button type="submit" id="newmsg" class="btn btn-success btn-flat" style="float: right;"><i class="fa fa-plus"></i> New Message</button>
 
-    <select name="user[]" id="user" data-placeholder="Choose a Users" class="form-control input-sm chosen-select" multiple tabindex="4">
-        <option value="21" selected >Avishek Singh</option>
-        <option value="64" selected >Jane Smith</option>
-        <option value="14" selected >Arun Kumar</option>
-        <option value="31" selected >Ravindra Mandalapu</option>
-        <option value="1"  >Ryan Andrews</option>
-        <option value="5" selected >John Doe</option>
-        <option value="41" selected >Kadhiresan K</option>
-        <option value="54" selected >Jane Doe</option>
-        <option value="51" selected >Sudhagar Ks</option>
-      </select>
+    <select name="user[]" id="user" data-placeholder="Choose a Users" class="form-control input-sm chosen-select" multiple tabindex="4" style="">
+        <?php  if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) { ?>
+            <option value="<?php echo $row["id"]; ?>" ><?php echo $row["fullname"]; ?></option>
+        <?php } } ?>
+    </select>
 
             </div>
             <!-- /.box-header -->
@@ -139,9 +143,19 @@
 </div>
 <script src="js/chosen.jquery.js"></script>
 <script type="text/javascript">
-    (function($){
+
+    $( document ).ready(function() {
         $('.chosen-select').chosen();
+
+    $( "#newmsg" ).click(function() {
+        $('.chosen-select').chosen();
+        $('#user').show( "slow" );
     });
+
+        
+       
+    });
+
 </script>
 <?php include 'footer.php';?>
 </body>
