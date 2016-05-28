@@ -1,3 +1,6 @@
+<?php 
+    include 'dbconnection.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +16,7 @@
 	<meta name="google-signin-client_id" content="500096944978-99393b2kmjehngsir5ocbdpai7h4bmaa.apps.googleusercontent.com">
 </head>
 <body class="login-page">
-<?php include 'dbconnection.php';?>
+
 
 	<div class="container">
 		<div class="wrapper">

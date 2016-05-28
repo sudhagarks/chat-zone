@@ -1,4 +1,8 @@
 <?php
+include 'dbconnection.php';
+require_once 'chat_incs.php';
+global $conn;
+
 $host = 'localhost'; //host
 $port = '9000'; //port
 $null = NULL; //null var
@@ -48,15 +52,74 @@ while (true) {
 		while(socket_recv($changed_socket, $buf, 1024, 0) >= 1)
 		{
 			$received_text = unmask($buf); //unmask data
-			$tst_msg = json_decode($received_text); //json decode 
-			$user_name = $tst_msg->name; //sender name
+			$tst_msg = json_decode($received_text,true); //json decode 
+                        $message = $tst_msg['message'];
+                        if(!empty($message)){
+                            $chat_message_id = '';
+                            if(!empty($tst_msg['room_token'])){
+                                //old chat
+                                $room_token = $tst_msg['room_token'];
+                                $query = "select chat_id from chats where room_token = ".$room_token;
+                                $result = $conn->query($query);
+                                $chat_id = '';
+                                while($row = $result->fetch_assoc()) {
+                                    $chat_id = $row['chat_id'];
+                                }
+                                if($chat_id){
+                                    $chat_message_id = save_chat_message($chat_id,$message);
+                                }
+                            } else {
+                                //fresh chat
+                                $valid_user = false;
+                                $valid_user_ids = [];
+                                if(!empty($tst_msg['user_ids'])){
+                                    foreach($tst_msg['user_ids'] as $userid){
+                                        $query = "select fullname from users where id = ".$userid;
+                                        if(get_count($query)>0){
+                                            $valid_user = true;
+                                            $valid_user_ids[] = $userid;
+                                        }
+                                    }
+                                }
+                                if($valid_user && !empty($valid_user_ids)){
+                                    //save chat
+                                    $room_token = md5(time().$_SESSION['USERID'].$_SESSION['email']);
+                                    $auth_user_id = $_SESSION['USERID'];
+                                    $query = "insert into chats (chat_user,room_token) values ($auth_user_id,'$room_token')";
+                                    mysqli_query($conn,$query);
+                                    $chat_id = mysqli_insert_id($conn);
+                                    
+                                    foreach($valid_user_ids as $user_id){
+                                        $query = "insert into chat_users (chat_id,user_id) values ($chat_id,$user_id)";
+                                        $result = $conn->query($query);
+                                    }
+                                    
+                                    if($chat_id){
+                                        $chat_message_id = save_chat_message($chat_id,$message);
+                                    }
+                                    /*//insert chat messages
+                                    $time = time();
+                                    $query = "insert into chat_messages (chat_id,user_id,message,chat_timevalue) values ($chat_id,$auth_user_id,'$message',$time)";
+                                    $result = $conn->query($query);*/
+                                }
+                            }
+                            //prepare data to be sent to client
+                            $details_array = array('type'=>'usermsg', 'name'=>'TEstingKS', 'chat_id'=>$chat_id, 'user_id'=>$_SESSION['USERID'], 'message'=>$message, 'room_token'=>$room_token);
+                            $details_array['chat_timevalue'] = get_chat_message_timestamp($chat_message_id);
+                            $chat_msg_html = get_chat_msg($details_array);
+                            $details_array['chat_html'] = $chat_msg_html;
+                            $response_text = mask(json_encode($details_array));
+                            send_message($response_text); //send data
+                        }
+                        
+			/*$user_name = $tst_msg->name; //sender name
 			$user_message = $tst_msg->message; //message text
 			$user_color = $tst_msg->color; //color
-                        $messagebox = $tst_msg->messagebox;
+                        $messagebox = $tst_msg->messagebox;*/
 			
 			//prepare data to be sent to client
-			$response_text = mask(json_encode(array('type'=>'usermsg', 'name'=>$user_name, 'message'=>$user_message, 'color'=>$user_color, 'messagebox'=>$messagebox)));
-			send_message($response_text); //send data
+			//$response_text = mask(json_encode(array('type'=>'usermsg', 'name'=>$user_name, 'message'=>$user_message, 'color'=>$user_color, 'messagebox'=>$messagebox)));
+			//send_message($response_text); //send data
 			break 2; //exist this loop
 		}
 		
