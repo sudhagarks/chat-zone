@@ -10,6 +10,8 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body class="login-page">
+<?php include 'dbconnection.php';?>
+
 	<div class="container">
 		<div class="wrapper">
 			<form action="" method="post" name="Login_Form" class="form-signin">       
