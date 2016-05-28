@@ -19,16 +19,18 @@
 		<div class="wrapper">
 			<form action="" method="post" name="Login_Form" class="form-signin">       
 			    <h3 class="form-signin-heading">Sign In</h3>
-				<hr class="colorgraph"><br>
+		 		 <hr class="colorgraph"><br>
 				  
 				<input type="text" class="form-control" name="email" placeholder="Email" required="" autofocus="" />
 				<input type="password" class="form-control" name="Password" placeholder="Password" required=""/>     		  
 				 
-				<button class="btn btn-lg btn-primary btn-block btn-blocksss"  name="Submit" value="Login" type="Submit">Login</button>  
+				  <button class="btn btn-lg btn-primary btn-block btn-blocksss"  name="Submit" value="Login" type="Submit">Login</button>  
 
-   				<!-- <div class="g-signin2" data-width="343" data-onsuccess="onSignIn">Sign in using Google</div>	 -->
-   				<div id="my-signin2" data-with="100%" data-background-color="#dd4b39"></div>
-				<a href="signup.html" class="text-center">Register a new membership</a>
+				  <div class="social-auth-links text-center" style="margin-bottom: 15px;">
+    
+     			 <div id="my-signin2" data-with="100%" data-background-color="#dd4b39"></div>
+   				 </div>	
+				<a href="signup.php" class="text-center">Register a new membership</a>
 			</form>		
 		</div>
 	</div>
