@@ -4,10 +4,34 @@
         $chat_ids = array();
         $query = "select distinct(chat_id) from chat_users where user_id = ".$user_id;
         $result = $conn->query($query);
-        while($row = $result->fetch_assoc()) {
-            array_push($chat_ids,$row['chat_id']);
+        if($result){
+            while($row = $result->fetch_assoc()) {
+                array_push($chat_ids,$row['chat_id']);
+            }
         }
         return $chat_ids;
+    }
+    
+    function get_chat_tokens($chat_ids){
+        global $conn;
+        $chat_rows = array();
+        if(!empty($chat_ids)){
+            $inc_chat_ids = '';
+            if(!is_array($chat_ids)){
+                $chat_ids = array($chat_ids);
+            }
+            $inc_chat_ids = implode(",",$chat_ids);
+            $query = "select chat_id,room_token from chats where chat_id IN (".$inc_chat_ids.")";
+        } else {
+            $query = "select chat_id,room_token from chats";
+        }
+        $result = $conn->query($query);
+        if($result){
+            while($row = $result->fetch_assoc()) {
+                $chat_rows[$row['chat_id']] = $row['room_token'];
+            }
+        }
+        return $chat_rows;
     }
 
     function get_chat_users($chat_ids, $user_id){
@@ -48,8 +72,10 @@
         if(!empty($chat_message_id)){
             $query = "select chat_timevalue from chat_messages where id=".$chat_message_id;
             $result = $conn->query($query);
-            while($row = $result->fetch_assoc()) {
-                $timestamp = $row['chat_timevalue'];
+            if($result){
+                while($row = $result->fetch_assoc()) {
+                    $timestamp = $row['chat_timevalue'];
+                }
             }
         }
         return $timestamp;
