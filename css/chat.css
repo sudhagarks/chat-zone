@@ -167,7 +167,7 @@ a {
     -o-transform: translate(0, 0);
     transform: translate(0, 0);
     padding: 10px;
-    height: 250px;
+    height: 450px;
     overflow: auto;
 }
 .direct-chat-msg {
@@ -230,4 +230,14 @@ a {
 .right .direct-chat-text {
     margin-right: 50px;
     margin-left: 0;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  background-color: #f8f8f8;
+  color: #777;
+  min-height: 40px;
+  width: 100%;
+  border-color: #e7e7e7;
 }
