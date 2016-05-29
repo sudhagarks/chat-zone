@@ -12,12 +12,17 @@
         } else {
             $query = "select id,fullname,user_img from users";
         }
-        $result = $conn->query($query);
+        if ($result = mysqli_query($conn, $query)) {
+            while ($row = mysqli_fetch_row($result)) {
+                array_push($user_rows,$row);
+            }
+        }
+        /*$result = $conn->query($query);
         if($result){
             while($row = $result->fetch_assoc()) {
                 array_push($user_rows,$row);
             }
-        }
+        }*/
         return $user_rows;
     }
 
