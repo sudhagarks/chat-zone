@@ -92,6 +92,12 @@ while (true) {
                                         }
                                     }
                                 }
+                                $details_array = array(
+                                    'user_ids' => $valid_user_ids,
+                                    'array' => $received_text
+                                );
+                                $response_text = mask(json_encode($details_array));
+                                send_message($response_text); //send data
                                 if($valid_user && !empty($valid_user_ids)){
                                     $room_token = md5(time().$tst_msg['auth_user_id'].$_SESSION['email']);
                                     $auth_user_id = $tst_msg['auth_user_id'];

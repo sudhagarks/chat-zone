@@ -65,6 +65,7 @@ $(document).ready(function(){
                     auth_user_fullname: user_fullname,
                 };
             }
+            console.log(msg);
             if(valid_chat_room){
                 //convert and send data to server
                 websocket.send(JSON.stringify(msg));
@@ -83,7 +84,7 @@ $(document).ready(function(){
         console.log(msg);
         if(msg.chat_type == "new"){
             var current_page_url = $(location).attr('origin')+$(location).attr('pathname');
-            window.location.href = current_page_url+"?t="+$.now()+"&cid="+msg.chat_id;
+            //window.location.href = current_page_url+"?t="+$.now()+"&cid="+msg.chat_id;
         } else {
             var room_token = msg.room_token;
             var chat_html = msg.chat_html;
