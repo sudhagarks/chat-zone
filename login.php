@@ -1,10 +1,9 @@
 <?php 
-	session_start();
 	include 'dbconnection.php';
-	// if($_GET && $_GET['link'] && $_GET['link'] == 'logout'){
-	// 	session_destroy();
-	// }
-	if($_SESSION && $_SESSION['is_logged_in']){
+	if(!isset($_SESSION)){
+		session_start();
+	}
+	if($_SESSION && isset($_SESSION['is_logged_in'])){
 		header('Location: /chat-zone/index.php');
 	}
 
@@ -13,7 +12,6 @@
 		$password = $_REQUEST['password'];
 		// $receiver_data  = array('email' => $email, 'password' => $password);
 		// $output = array('status'=>'failed', 'message' => 'Something went wrong','receiver_data' => $receiver_data);
-
 		$sql = "SELECT * FROM users WHERE email='".$email."' AND password='".$password."'";
 		$result = $conn->query($sql);
 		
@@ -46,7 +44,7 @@
 	<meta name="google-signin-client_id" content="500096944978-99393b2kmjehngsir5ocbdpai7h4bmaa.apps.googleusercontent.com">
 </head>
 <body class="login-page">
-<?php include 'dbconnection.php';?>
+
 
 	<div class="container">
 		<div class="wrapper">

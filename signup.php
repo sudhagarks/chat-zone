@@ -2,7 +2,7 @@
 	session_start();
 	include 'dbconnection.php';
 
-	if($_SESSION && $_SESSION['is_logged_in']){
+	if($_SESSION && isset($_SESSION['is_logged_in'])){
 		header('Location: /chat-zone/index.php');
 	}
 
@@ -83,7 +83,7 @@
 					<button class="btn btn-lg btn-primary btn-block btn-blocksss"  name="Submit" value="Login" type="Submit">SignUp</button>  
 
 					<div class="social-auth-links text-center" style="margin-bottom: 15px;">
-					<div id="my-signin2"></div>
+						<div id="my-signin2"></div>
 					</div>	
 					<a href="login.php" class="text-center">I already have a account</a>
 			</form>		
@@ -139,10 +139,6 @@
         'onfailure': onFailure
       });
     }
- //    $( document ).ready(function() {
- //    	console.log( "document ready!" );
-	// 	$('#my-signin2 .abcRioButton').css({'width' : ''});
-	// });
 </script>
 
 </html>
