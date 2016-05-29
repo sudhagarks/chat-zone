@@ -3,7 +3,8 @@ function formatState (state) {
 }
 $(document).ready(function(){
     //create a new WebSocket object.
-    var wsUri = "ws://localhost:9000/socket-chat/server.php"; 	
+    //var wsUri = "ws://localhost:9000/socket-chat/server.php";
+    var wsUri = "ws://localhost:9000/mantra-chat-zone/chat_server.php"; 	
     websocket = new WebSocket(wsUri); 
     
     websocket.onopen = function(ev) { // connection is open 
