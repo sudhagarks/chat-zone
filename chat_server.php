@@ -63,13 +63,18 @@ while (true) {
                                 //old chat
                                 $room_token = $tst_msg['room_token'];
                                 $query = "select chat_id from chats where room_token = '".$room_token."'";
-                                $result = $conn->query($query);
+                                /*$result = $conn->query($query);*/
                                 $chat_id = '';
-                                if($result){
-                                    while($row = $result->fetch_assoc()) {
+                                if ($result = mysqli_query($conn, $query)) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
                                         $chat_id = $row['chat_id'];
                                     }
                                 }
+                                /*if($result){
+                                    while($row = $result->fetch_assoc()) {
+                                        $chat_id = $row['chat_id'];
+                                    }
+                                }*/
                                 if($chat_id){
                                     $chat_message_id = save_chat_message($chat_id,$message,$tst_msg['auth_user_id']);
                                 }
