@@ -1,7 +1,13 @@
 <?php 
+    // include 'session_ctrl.php';
     include 'dbconnection.php';
     require_once 'chat_incs.php';
     require_once '_incs/user_incs.php';
+
+    // session_start();
+    if(!isset($_SESSION['is_logged_in']) && !$_SESSION['is_logged_in']){
+        header('Location: /chat-zone/login.php');
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,7 +20,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="css/select2.css">
-</head>
 </head>
 <body>
 <?php include 'header.php';?>

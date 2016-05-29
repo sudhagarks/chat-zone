@@ -1,10 +1,12 @@
 <?php
+include 'session_ctrl.php';
+
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "chat";
+$dbname = "chatzone";
 
-session_start();
+// session_start();
 
 $_SESSION['USERID'] = 2;
 
