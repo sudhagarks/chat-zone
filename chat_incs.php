@@ -81,15 +81,14 @@
         return $timestamp;
     }
     
-    function get_chat_msg($detail){
+    function get_chat_msg($detail,$auth_user_id){
         global $_SESSION;
-        $pos_class = ($detail['user_id'] == $_SESSION['USERID']) ? "right" : '';
+        $pos_class = ($detail['user_id'] == $auth_user_id) ? "right" : '';
         $html = sprintf('<div class="direct-chat-msg %s">',$pos_class);
         $html .= sprintf('<div class="direct-chat-info clearfix">');
         $html .= sprintf('<span class="direct-chat-name pull-left">%s</span>',$detail['fullname']);
-        //if(!empty($detail['chat_timevalue'])){
-            $html .= sprintf('<span class="direct-chat-timestamp pull-right">%s</span>',date('D m Y h:i:a',$detail['chat_timevalue']));
-        //}
+        $timestamp = date('D m Y h:i:a',$detail['chat_timevalue']);
+        $html .= sprintf('<span class="direct-chat-timestamp pull-right">%s</span>',$timestamp);
         $html .= sprintf('</div>'); 
         $html .= sprintf('<img class="direct-chat-img media-object" src="img/default_user.png" alt="Message User Image">');
         $html .= sprintf('<div class="direct-chat-text">%s</div>',$detail['message']);
@@ -97,10 +96,9 @@
         return $html;
     }
     
-    function save_chat_message($chat_id, $message){
+    function save_chat_message($chat_id, $message, $auth_user_id){
         global $_SESSION;
         global $conn;
-        $auth_user_id = $_SESSION['USERID'];
         //insert chat messages
         $time = time();
         $query = "insert into chat_messages (chat_id,user_id,message,chat_timevalue) values ($chat_id,$auth_user_id,'$message',$time)";

@@ -4,29 +4,29 @@
 		session_start();
 	}
 	if($_SESSION && isset($_SESSION['is_logged_in'])){
-		header('Location: /chat-zone/index.php');
+		header('Location: index.php');
 	}
 
-	if($_REQUEST && !empty($_REQUEST['email'] && !empty($_REQUEST['password']))) {
-		$email = $_REQUEST['email'];
-		$password = $_REQUEST['password'];
-		// $receiver_data  = array('email' => $email, 'password' => $password);
-		// $output = array('status'=>'failed', 'message' => 'Something went wrong','receiver_data' => $receiver_data);
-		$sql = "SELECT * FROM users WHERE email='".$email."' AND password='".$password."'";
-		$result = $conn->query($sql);
-		
-		if ($result->num_rows > 0) {
-			$_SESSION["is_logged_in"] = true;
-			while($row = $result->fetch_assoc()) {
-		        $_SESSION["fullname"] = $row["fullname"];
-				$_SESSION["email"]    = $row["email"];
-				$_SESSION["user_img"] = $row["user_img"];
-		    }
-	
-			header('Location: /chat-zone/index.php');
-		} else {
-			session_destroy();
-		}
+	if(!empty($_REQUEST) && !empty($_REQUEST['email']) && !empty($_REQUEST['password'])) {
+            $email = $_REQUEST['email'];
+            $password = $_REQUEST['password'];
+            // $receiver_data  = array('email' => $email, 'password' => $password);
+            // $output = array('status'=>'failed', 'message' => 'Something went wrong','receiver_data' => $receiver_data);
+            $sql = "SELECT * FROM users WHERE email='".$email."' AND password='".$password."'";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $_SESSION["is_logged_in"] = true;
+                while($row = $result->fetch_assoc()) {
+                    $_SESSION['USERID'] = $row['id'];
+                    $_SESSION["fullname"] = $row["fullname"];
+                    $_SESSION["email"]    = $row["email"];
+                    $_SESSION["user_img"] = $row["user_img"];
+                }
+                header('Location: index.php');
+            } else {
+                session_destroy();
+            }
 	}
 ?>
 <!DOCTYPE html>
@@ -84,14 +84,14 @@
 
 		console.log('user data: ' + JSON.stringify(data));
 		$.ajax({
-	        url: '/chat-zone/gmail_login.php',
+	        url: 'gmail_login.php',
 	        type: 'POST',
 	        data: data,
 	        success: function(data, status){
 	        	var data = JSON.parse(data);
 	        	console.log(data);
 	        	 if(data.status == 'success'){
-	        	 	window.location = "/chat-zone/index.php";
+	        	 	window.location = "index.php";
 	        	 }else{
 	        		alert(data.message);
 	        	}

@@ -71,7 +71,7 @@ while (true) {
                                     }
                                 }
                                 if($chat_id){
-                                    $chat_message_id = save_chat_message($chat_id,$message);
+                                    $chat_message_id = save_chat_message($chat_id,$message,$tst_msg['auth_user_id']);
                                 }
                             } else {
                                 $chat_type = "new";
@@ -88,8 +88,8 @@ while (true) {
                                     }
                                 }
                                 if($valid_user && !empty($valid_user_ids)){
-                                    $room_token = md5(time().$_SESSION['USERID'].$_SESSION['email']);
-                                    $auth_user_id = $_SESSION['USERID'];
+                                    $room_token = md5(time().$tst_msg['auth_user_id'].$_SESSION['email']);
+                                    $auth_user_id = $tst_msg['auth_user_id'];
                                     $query = "insert into chats (chat_user,room_token) values ($auth_user_id,'$room_token')";
                                     mysqli_query($conn,$query);
                                     $chat_id = mysqli_insert_id($conn);
@@ -98,15 +98,15 @@ while (true) {
                                         $result = $conn->query($query);
                                     }
                                     if($chat_id){
-                                        $chat_message_id = save_chat_message($chat_id,$message);
+                                        $chat_message_id = save_chat_message($chat_id,$message,$tst_msg['auth_user_id']);
                                     }
                                 }
                             }
                             if(!empty($chat_message_id)){
                                 //prepare data to be sent to client
-                                $details_array = array('type'=>'usermsg', 'name'=>'TEstingKS', 'chat_id'=>$chat_id, 'user_id'=>$_SESSION['USERID'], 'message'=>$message, 'room_token'=>$room_token, 'chat_type'=>$chat_type);
+                                $details_array = array('type'=>'usermsg', 'fullname'=>$tst_msg['auth_user_fullname'], 'chat_id'=>$chat_id, 'user_id'=>$tst_msg['auth_user_id'], 'message'=>$message, 'room_token'=>$room_token, 'chat_type'=>$chat_type, 'chat_message_id' => $chat_message_id);
                                 $details_array['chat_timevalue'] = get_chat_message_timestamp($chat_message_id);
-                                $chat_msg_html = get_chat_msg($details_array);
+                                $chat_msg_html = get_chat_msg($details_array, $tst_msg['auth_user_id']);
                                 $details_array['chat_html'] = $chat_msg_html;
                                 $response_text = mask(json_encode($details_array));
                                 send_message($response_text); //send data

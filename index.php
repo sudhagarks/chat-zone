@@ -6,7 +6,7 @@
 
     // session_start();
     if(!isset($_SESSION['is_logged_in']) && !$_SESSION['is_logged_in']){
-        header('Location: /chat-zone/login.php');
+        header('Location: login.php');
     }
 ?>
 <!DOCTYPE html>
@@ -55,15 +55,20 @@
                         $all_chat_users[$user_chat_id] = $temp_array;
                     }
                     krsort($all_chat_users);
+                    $active_class = 'active';
+                    $j = 0;
                     foreach($all_chat_users as $chat_id => $chat_details){
                         $user_chat_id = $chat_id;
                         $chat_token = !empty($chat_tokens[$user_chat_id]) ? $chat_tokens[$user_chat_id] : '';
                         if(empty($first_token) && !empty($chat_token)){
                             $first_token = $chat_token;
                         }
+                        if(!empty($j)){
+                            $active_class = '';
+                        }
             ?>
                         <div class="list-group">
-                          <a href="javascript:void(0);" class="chat-head list-group-item" data-room-token="<?=$chat_token?>">
+                          <a href="javascript:void(0);" class="chat-head list-group-item <?php echo $active_class; ?>" data-room-token="<?=$chat_token?>">
                             <img class="media-object" src="img/default_user.png" alt="User Name">
                             <div>
                                 <?php
@@ -80,7 +85,7 @@
                             </div>
                           </a>
                         </div>
-                    <?php } ?>
+                    <?php $j++; } ?>
                 <?php } else { ?>
                     <div class="list-group">
                         <a href="#" class="list-group-item active text-center">
@@ -119,7 +124,7 @@
                     <div class="direct-chat-messages">                    
                         <?php  $i = 1; foreach($all_chat['details'] as $detail) { ?>
                         <?php
-                            echo get_chat_msg($detail);
+                            echo get_chat_msg($detail,$_SESSION['USERID']);
                             /*
                             $pos_class = ($detail['user_id'] == $_SESSION['USERID']) ? "right" : '';
                         ?>

@@ -49,7 +49,9 @@ $(document).ready(function(){
                     var msg = {
                         message: message,
                         user_ids: user_ids,
-                        room_token: room_token
+                        room_token: room_token,
+                        auth_user_id: current_user_id,
+                        auth_user_fullname: user_fullname,
                     };
                 } else {
                     valid_chat_room = false;
@@ -57,7 +59,9 @@ $(document).ready(function(){
             } else {
                 var msg = {
                     message: message,
-                    room_token: room_token
+                    room_token: room_token,
+                    auth_user_id: current_user_id,
+                    auth_user_fullname: user_fullname,
                 };
             }
             if(valid_chat_room){
@@ -78,7 +82,7 @@ $(document).ready(function(){
         console.log(msg);
         if(msg.chat_type == "new"){
             var current_page_url = $(location).attr('origin')+$(location).attr('pathname');
-            window.location.href = current_page_url+"?t="+$.now()+"&cid="+msg.chat_id;
+            //window.location.href = current_page_url+"?t="+$.now()+"&cid="+msg.chat_id;
         } else {
             var room_token = msg.room_token;
             var chat_html = msg.chat_html;

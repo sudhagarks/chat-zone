@@ -6,10 +6,6 @@ $username = "root";
 $password = "";
 $dbname = "chatzone";
 
-// session_start();
-
-$_SESSION['USERID'] = 2;
-
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -22,11 +18,6 @@ function get_count($query){
     global $conn;
     $result = $conn->query($query);
     $countRows = $result->num_rows;
-    $result->close();
     return $countRows;
 }
-
-
-
-
 ?>

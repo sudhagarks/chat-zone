@@ -3,7 +3,7 @@
 	include 'dbconnection.php';
 
 	if($_SESSION && isset($_SESSION['is_logged_in'])){
-		header('Location: /chat-zone/index.php');
+		header('Location: index.php');
 	}
 
 	$nameErr = $emailErr = $pwdErr = "";
@@ -33,11 +33,13 @@
 		$repassword = $_REQUEST['repassword'];
 		if($run && $password == $repassword){
 			$sql = "INSERT INTO users (fullname, password, email) VALUES ('".$name."', '".$password."', '".$email."')";
-			$result = $conn->query($sql);
+			//$result = $conn->query($sql);
+                        mysqli_query($conn,$sql);
+                        $_SESSION['USERID'] = mysqli_insert_id($conn);;
 			$_SESSION["fullname"]     = $name;
 			$_SESSION["email"]        = $email;
 			$_SESSION["is_logged_in"] = true;
-			header('Location: /chat-zone/index.php');
+			header('Location: index.php');
 		}else{
 			$pwdErr = "Password is wrong";
 		}
@@ -105,14 +107,14 @@
 
 		console.log('user data: ' + JSON.stringify(data));
 		$.ajax({
-	        url  : '/chat-zone/gmail_login.php',
+	        url  : 'gmail_login.php',
 	        type : 'POST',
 	        data : data,
 	        success: function(data, status){
 	        	var data = JSON.parse(data);
 	        	console.log(data);
 	        	if(data.status == 'success'){
-	        		window.location = "/chat-zone/index.php";
+	        		window.location = "index.php";
 	        	}else{
 	        		alert(data.message);
 	        	}
