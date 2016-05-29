@@ -13,7 +13,7 @@
             $query = "select id,fullname,user_img from users";
         }
         if ($result = mysqli_query($conn, $query)) {
-            while ($row = mysqli_fetch_row($result)) {
+            while ($row = mysqli_fetch_assoc($result)) {
                 array_push($user_rows,$row);
             }
         }
