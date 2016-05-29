@@ -27,19 +27,50 @@
                 $chat_users = get_chat_users($chat_ids,$_SESSION['USERID']);
                 $chat_tokens = get_chat_tokens($chat_ids);
                 $first_token = '';
+                if(!empty($_GET['cid'])){
+                    $first_token = !empty($chat_tokens[$_GET['cid']]) ? $chat_tokens[$_GET['cid']] : '';
+                }
                 if($chat_users){
-                    foreach($chat_users as $user){
-                        $user_chat_id = $user['chat_id'];
+                    $all_chat_users = array();
+                    foreach($chat_users as $chat_user){
+                        $user_chat_id = $chat_user['chat_id'];
+                        if(empty($all_chat_users[$user_chat_id])){
+                            $all_chat_users[$user_chat_id]  = array();
+                        }
+                        $temp_array = array();
+                        $temp_array['chat_id'] = $chat_user['chat_id'];
+                        if(!empty($all_chat_users[$user_chat_id]['users'])){
+                            $users_array = $all_chat_users[$user_chat_id]['users'];
+                            array_push($users_array,$chat_user);
+                            $temp_array['users'] = $users_array;
+                        } else {
+                            $temp_array['users'] = array();
+                            array_push($temp_array['users'],$chat_user);
+                        }
+                        $all_chat_users[$user_chat_id] = $temp_array;
+                    }
+                    krsort($all_chat_users);
+                    foreach($all_chat_users as $chat_id => $chat_details){
+                        $user_chat_id = $chat_id;
                         $chat_token = !empty($chat_tokens[$user_chat_id]) ? $chat_tokens[$user_chat_id] : '';
                         if(empty($first_token) && !empty($chat_token)){
                             $first_token = $chat_token;
                         }
             ?>
                         <div class="list-group">
-                          <a href="javascript:void(0);" class="chat-head list-group-item active" data-room-token="<?=$chat_token?>">
+                          <a href="javascript:void(0);" class="chat-head list-group-item" data-room-token="<?=$chat_token?>">
                             <img class="media-object" src="img/default_user.png" alt="User Name">
                             <div>
-                                <h4 class="list-group-item-heading"><?php echo $user['fullname']; ?></h4>
+                                <?php
+                                    $chat_user_names = '';
+                                    foreach($chat_details['users'] as $user){
+                                        if(!empty($chat_user_names)){
+                                            $chat_user_names .= " , ";
+                                        }
+                                        $chat_user_names .= $user['fullname'];
+                                    }
+                                ?>
+                                <h4 class="list-group-item-heading"><?php echo $chat_user_names; ?></h4>
                                 <!-- <p class="list-group-item-text">Add nearly any HTML within, even for linked list groups like the one below.</p> -->
                             </div>
                           </a>

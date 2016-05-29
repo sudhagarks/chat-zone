@@ -28,10 +28,12 @@ $(document).ready(function(){
     });
     
     $(".chat-head").click(function(){
+        $(".chat-head").removeClass('active');
         var room_token = $(this).attr('data-room-token');
         $(".conversation-box").addClass('hide');
         $(".new-conversation-box").addClass('hide');
         $("#RoomToken"+room_token).removeClass('hide');
+        $(this).addClass('active');
     });
     
     $('.message-send').click(function(){
@@ -75,7 +77,8 @@ $(document).ready(function(){
         var msg = JSON.parse(ev.data);
         console.log(msg);
         if(msg.chat_type == "new"){
-            window.location.href = window.location+"?t="+$.now();
+            var current_page_url = $(location).attr('origin')+$(location).attr('pathname');
+            window.location.href = current_page_url+"?t="+$.now()+"&cid="+msg.chat_id;
         } else {
             var room_token = msg.room_token;
             var chat_html = msg.chat_html;
@@ -84,6 +87,5 @@ $(document).ready(function(){
             var contactTopPosition = $("#RoomToken"+room_token).find('div.direct-chat-messages').prop('scrollHeight');
             $("div.direct-chat-messages").animate({scrollTop: contactTopPosition});
         }
-        
     };
 });

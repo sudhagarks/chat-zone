@@ -18,6 +18,8 @@ socket_bind($socket, 0, $port);
 //listen to port
 socket_listen($socket);
 
+//socket_close($socket); die;
+
 //create & add listning socket to the list
 $clients = array($socket);
 
@@ -60,11 +62,13 @@ while (true) {
                                 $chat_type = "old";
                                 //old chat
                                 $room_token = $tst_msg['room_token'];
-                                $query = "select chat_id from chats where room_token = ".$room_token;
+                                $query = "select chat_id from chats where room_token = '".$room_token."'";
                                 $result = $conn->query($query);
                                 $chat_id = '';
-                                while($row = $result->fetch_assoc()) {
-                                    $chat_id = $row['chat_id'];
+                                if($result){
+                                    while($row = $result->fetch_assoc()) {
+                                        $chat_id = $row['chat_id'];
+                                    }
                                 }
                                 if($chat_id){
                                     $chat_message_id = save_chat_message($chat_id,$message);
@@ -108,11 +112,6 @@ while (true) {
                                 send_message($response_text); //send data
                             }
                         }
-                        
-			/*$user_name = $tst_msg->name; //sender name
-			$user_message = $tst_msg->message; //message text
-			$user_color = $tst_msg->color; //color
-                        $messagebox = $tst_msg->messagebox;*/
 			
 			//prepare data to be sent to client
 			//$response_text = mask(json_encode(array('type'=>'usermsg', 'name'=>$user_name, 'message'=>$user_message, 'color'=>$user_color, 'messagebox'=>$messagebox)));
