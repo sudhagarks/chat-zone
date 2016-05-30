@@ -1,9 +1,11 @@
 <?php
 include 'dbconnection.php';
 require_once 'chat_incs.php';
+require_once '_incs/user_incs.php';
 global $conn;
 
-$host = 'localhost'; //host
+//$host = 'localhost'; //host
+$host = '192.168.0.144';
 $port = '9000'; //port
 $null = NULL; //null var
 
@@ -58,10 +60,24 @@ while (true) {
                         $message = $tst_msg['message'];
                         if(!empty($message)){
                             $chat_message_id = '';
-                            if(!empty($tst_msg['room_token'])){
-                                $chat_type = "old";
+                            $added_to_old_chat = false;
+                            $conv_room_token = $tst_msg['room_token'];
+                            if(empty($conv_room_token)){
+                                $conv_users_ids = !empty($tst_msg['user_ids']) ? $tst_msg['user_ids'] : array();
+                                $user_chats_token = get_user_chat_token($conv_users_ids);
+                                if(!empty($user_chats_token)){
+                                    $conv_room_token = $user_chats_token;
+                                    $added_to_old_chat = true;
+                                }
+                            }
+                            if(!empty($conv_room_token)){
+                                if($added_to_old_chat){
+                                    $chat_type = "added_to_old";
+                                } else {
+                                    $chat_type = "old";
+                                }
                                 //old chat
-                                $room_token = $tst_msg['room_token'];
+                                $room_token = !empty($conv_room_token) ? $conv_room_token : $tst_msg['room_token'];
                                 $query = "select chat_id from chats where room_token = '".$room_token."'";
                                 /*$result = $conn->query($query);*/
                                 $chat_id = '';
@@ -92,12 +108,6 @@ while (true) {
                                         }
                                     }
                                 }
-                                $details_array = array(
-                                    'user_ids' => $valid_user_ids,
-                                    'array' => $received_text
-                                );
-                                $response_text = mask(json_encode($details_array));
-                                send_message($response_text); //send data
                                 if($valid_user && !empty($valid_user_ids)){
                                     $room_token = md5(time().$tst_msg['auth_user_id'].$_SESSION['email']);
                                     $auth_user_id = $tst_msg['auth_user_id'];

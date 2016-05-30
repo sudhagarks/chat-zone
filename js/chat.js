@@ -4,7 +4,8 @@ function formatState (state) {
 $(document).ready(function(){
     //create a new WebSocket object.
     //var wsUri = "ws://localhost:9000/socket-chat/server.php";
-    var wsUri = "ws://localhost:9000/mantra-chat-zone/chat_server.php"; 	
+    //var wsUri = "ws://localhost:9000/chat-zone/chat_server.php"; 
+    var wsUri = "ws://192.168.0.144:9000/mantra-chat-zone/chat_server.php";
     websocket = new WebSocket(wsUri); 
     
     websocket.onopen = function(ev) { // connection is open 
@@ -53,6 +54,7 @@ $(document).ready(function(){
                         room_token: room_token,
                         auth_user_id: current_user_id,
                         auth_user_fullname: user_fullname,
+                        conv_user_ids: $("#chat_users_list").val()
                     };
                 } else {
                     valid_chat_room = false;
@@ -63,6 +65,7 @@ $(document).ready(function(){
                     room_token: room_token,
                     auth_user_id: current_user_id,
                     auth_user_fullname: user_fullname,
+                    conv_user_ids: $("#chat_users_list").val()
                 };
             }
             console.log(msg);
@@ -84,7 +87,10 @@ $(document).ready(function(){
         console.log(msg);
         if(msg.chat_type == "new"){
             var current_page_url = $(location).attr('origin')+$(location).attr('pathname');
-            //window.location.href = current_page_url+"?t="+$.now()+"&cid="+msg.chat_id;
+            window.location.href = current_page_url+"?t="+$.now()+"&cid="+msg.chat_id;
+        } else if(msg.chat_type == "added_to_old"){
+            var current_page_url = $(location).attr('origin')+$(location).attr('pathname');
+            window.location.href = current_page_url+"?t="+$.now()+"&cid="+msg.chat_id;
         } else {
             var room_token = msg.room_token;
             var chat_html = msg.chat_html;

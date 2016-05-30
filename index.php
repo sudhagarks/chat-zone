@@ -55,15 +55,16 @@
                         $all_chat_users[$user_chat_id] = $temp_array;
                     }
                     krsort($all_chat_users);
-                    $active_class = 'active';
                     $j = 0;
                     foreach($all_chat_users as $chat_id => $chat_details){
                         $user_chat_id = $chat_id;
-                        $chat_token = !empty($chat_tokens[$user_chat_id]) ? $chat_tokens[$user_chat_id] : '';
+                        $chat_token = !empty($chat_tokens[$chat_id]) ? $chat_tokens[$chat_id] : 'dd';
                         if(empty($first_token) && !empty($chat_token)){
                             $first_token = $chat_token;
                         }
-                        if(!empty($j)){
+                        if($first_token == $chat_token){
+                            $active_class = 'active';
+                        } else {
                             $active_class = '';
                         }
             ?>
