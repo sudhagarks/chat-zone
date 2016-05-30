@@ -1,7 +1,7 @@
 <?php 
-	session_start();
 	include 'dbconnection.php';
-
+        global $configs;
+        
 	if($_SESSION && isset($_SESSION['is_logged_in'])){
 		header('Location: index.php');
 	}
@@ -64,7 +64,7 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<!-- Google Login -->
 	<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-	<meta name="google-signin-client_id" content="500096944978-99393b2kmjehngsir5ocbdpai7h4bmaa.apps.googleusercontent.com">
+	<meta name="google-signin-client_id" content="<?php echo $configs['GOOGLE_CLIENT_ID']; ?>">
 </head>
 <body class="login-page">
 	<div class="container">
