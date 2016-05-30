@@ -3,11 +3,14 @@ include '../dbconnection.php';
 require_once '../chat_incs.php';
 require_once '../_incs/user_incs.php';
 global $conn;
+global $SITE_CONFIGS;
 
 //$host = 'localhost'; //host
 //$host = '192.168.0.144';
-$host = "52.11.177.68";
-$port = '9009'; //port
+//$host = "52.11.177.68";
+//$port = '9009'; //port
+$host = $SITE_CONFIGS['WS_HOST'];
+$port = $SITE_CONFIGS['WS_PORT'];
 $null = NULL; //null var
 
 //Create TCP/IP sream socket
@@ -110,7 +113,7 @@ while (true) {
                                     }
                                 }
                                 if($valid_user && !empty($valid_user_ids)){
-                                    $room_token = md5(time().$tst_msg['auth_user_id'].$_SESSION['email']);
+                                    $room_token = md5(time().$tst_msg['auth_user_id']);
                                     $auth_user_id = $tst_msg['auth_user_id'];
                                     $query = "insert into chats (chat_user,room_token) values ($auth_user_id,'$room_token')";
                                     mysqli_query($conn,$query);
