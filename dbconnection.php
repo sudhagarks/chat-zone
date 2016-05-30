@@ -3,7 +3,7 @@ include 'session_ctrl.php';
 
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "password";
 $dbname = "chatzone";
 
 // Create connection

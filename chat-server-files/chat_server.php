@@ -1,13 +1,13 @@
 <?php
-include 'dbconnection.php';
-require_once 'chat_incs.php';
-require_once '_incs/user_incs.php';
+include '../dbconnection.php';
+require_once '../chat_incs.php';
+require_once '../_incs/user_incs.php';
 global $conn;
 
 //$host = 'localhost'; //host
 //$host = '192.168.0.144';
 $host = "52.11.177.68";
-$port = '9000'; //port
+$port = '9009'; //port
 $null = NULL; //null var
 
 //Create TCP/IP sream socket

@@ -5,7 +5,8 @@ $(document).ready(function(){
     //create a new WebSocket object.
     //var wsUri = "ws://localhost:9000/socket-chat/server.php";
     //var wsUri = "ws://localhost:9000/chat-zone/chat_server.php"; 
-    var wsUri = "ws://192.168.0.144:9000/mantra-chat-zone/chat_server.php";
+    //var wsUri = "ws://192.168.0.144:9000/mantra-chat-zone/chat_server.php";
+    var wsUri = "ws://52.11.177.68:9009/chat-zone/chat-server-files/chat_server.php";
     websocket = new WebSocket(wsUri); 
     
     websocket.onopen = function(ev) { // connection is open 
